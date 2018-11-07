@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SEG2105_Project</string>
+    <string name="confirm">Confirm</string>
+    <string name="enter_your_password">Enter Your Password</string>
+    <string name="confirm_your_password">Confirm Your Password</string>
+    <string name="email">Email</string>
+    <string name="lastname">Lastname</string>
+    <string name="firstname">Firstname</string>
+    <string name="username">Username</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

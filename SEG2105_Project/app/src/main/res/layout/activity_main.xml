@@ -6,13 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/UsernameMain"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/enter_username"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/PasswordMain"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/PasswordMain"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="@string/enter_password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UsernameMain" />
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/login"
+        android:onClick="onClickLogin"
+        app:layout_constraintStart_toEndOf="@+id/Register"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordMain" />
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:onClick="onClickRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordMain" />
 </android.support.constraint.ConstraintLayout>
