@@ -36,37 +36,46 @@ public class MainActivity extends AppCompatActivity {
     public void onClickLogin(View v){
         String email = getUserEmail();
         String password = getUserPass();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent login = new Intent(getApplicationContext(), WelcomeScreen.class);
-                            startActivity(login);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Authentication failed :(", Toast.LENGTH_LONG).show();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Email/Password is empty", Toast.LENGTH_LONG).show();
+        }
+        else{
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent login = new Intent(getApplicationContext(), WelcomeScreen.class);
+                                startActivity(login);
+                            } else {
+                                Toast.makeText(MainActivity.this, "Authentication failed :(", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
-
+                    });
+        }
     }
 
-    public void onClickRegister(View v){
+    public void onClickRegister(View v) {
         String email = getUserEmail();
         String password = getUserPass();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent register = new Intent(getApplicationContext(), SignUp.class);
-                            startActivity(register);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Authentication failed :(", Toast.LENGTH_LONG).show();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Email/Password is Empty", Toast.LENGTH_SHORT).show();
+        } else {
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent register = new Intent(getApplicationContext(), SignUp.class);
+                                startActivity(register);
+                            } else {
+                                Toast.makeText(MainActivity.this, "Authentication failed :(", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 }
