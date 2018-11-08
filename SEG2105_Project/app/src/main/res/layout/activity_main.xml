@@ -46,4 +46,13 @@
         android:onClick="onClickRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordMain" />
+
+    <TextView
+        android:id="@+id/registerTextInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To register an account, enter a valid email and password, click register to enter additional info"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/Login"
+        android:layout_margin="80dp"/>
 </android.support.constraint.ConstraintLayout>

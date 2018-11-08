@@ -7,17 +7,6 @@
     tools:context=".SignUp">
 
     <EditText
-        android:id="@+id/Username"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/username"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/Firstname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/Firstname"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -25,8 +14,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/Lastname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Username" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/Lastname"
@@ -37,44 +25,8 @@
         android:hint="@string/lastname"
         android:importantForAutofill="no"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Firstname" />
-
-    <EditText
-        android:id="@+id/Email"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/Password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lastname" />
-
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:hint="@string/enter_your_password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/ConfirmPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email" />
-
-    <EditText
-        android:id="@+id/ConfirmPassword"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:hint="@string/confirm_your_password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/Confirm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <Button
         android:id="@+id/Confirm"

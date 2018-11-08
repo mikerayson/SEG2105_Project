@@ -17,11 +17,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    EditText et1, et2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        et1 = findViewById(R.id.UsernameMain);
+        et2 = findViewById(R.id.PasswordMain);
     }
     public String getUserEmail(){
         EditText et1 = (EditText)findViewById(R.id.UsernameMain);
@@ -67,13 +70,30 @@ public class MainActivity extends AppCompatActivity {
     public void onClickRegister(View v) {
         String email = getUserEmail();
         String password = getUserPass();
-        
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Email/Password is Empty", Toast.LENGTH_SHORT).show();
+
+        if(email.isEmpty()){
+            et1.setError("Enter an email");
+            et1.requestFocus();
+            return;
         }
-        else {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            et1.setError("Enter a valid email");
+            et1.requestFocus();
+            return;
+        }
+
+        if(password.isEmpty()){
+            et2.setError("Enter a password");
+            et1.requestFocus();
+            return;
+        }
+
+        
+
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -84,6 +104,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
+
     }
 }

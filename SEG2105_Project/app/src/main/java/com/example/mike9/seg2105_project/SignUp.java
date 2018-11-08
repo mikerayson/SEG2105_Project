@@ -18,6 +18,7 @@ import static java.security.AccessController.getContext;
 public class SignUp extends AppCompatActivity {
 
     FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +29,24 @@ public class SignUp extends AppCompatActivity {
 
     public void onClickConfirm(View v){
         //Retrieves the email and password
-        EditText edt = (EditText)findViewById(R.id.Email);
-        EditText edt2 = (EditText)findViewById(R.id.Password);
-        String email = edt.getText().toString();
-        String password = edt2.getText().toString();
+        EditText et1 = (EditText)findViewById(R.id.Firstname);
+        EditText et2 = (EditText)findViewById(R.id.Lastname);
+        String firstName = et1.getText().toString();
+        String lastName = et2.getText().toString();
+
+        if(firstName.isEmpty()){
+            et1.setError("Enter your first name");
+            et1.requestFocus();
+            return;
+        }
+
+        if(lastName.isEmpty()){
+            et2.setError("Enter your last name");
+            et2.requestFocus();
+            return;
+        }
         //Creates the user within firebase
+        /*
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -43,6 +57,7 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 }
 
