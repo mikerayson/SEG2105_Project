@@ -15,12 +15,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static java.security.AccessController.getContext;
 
 public class SignUp extends AppCompatActivity {
+    //Firebase Stuff
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mRef;
+    private String userID;
 
-    FirebaseAuth mAuth;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String accountType;
@@ -29,7 +36,14 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        //Carries over the user sign in
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mRef = mFirebaseDatabase.getReference();
+        userID = user.getUid();
+
         spinner = findViewById(R.id.spinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.account_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -65,18 +79,8 @@ public class SignUp extends AppCompatActivity {
             et2.requestFocus();
             return;
         }
-        //Creates the user within firebase
-        /*
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
+        mRef.child("Users").child(accountType).child(firstName).setValue(lastName);
+        Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
     }
 }
 

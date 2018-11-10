@@ -45,7 +45,7 @@ public class AddService extends AppCompatActivity {
 
             if (!serviceName.isEmpty() && !serviceRate.isEmpty()) {
 
-                mRef.child(userId).child("Services").child(serviceName).setValue(serviceRate);
+                mRef.child("Services").child(serviceName).setValue(serviceRate);
                 Toast.makeText(AddService.this, "Change made", Toast.LENGTH_SHORT).show();
                 mServiceName.setText("");
                 mServiceRate.setText("");
