@@ -11,4 +11,8 @@
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string-array name="account_types">
+        <item>Service Provider</item>
+        <item>Home Owner</item>
+    </string-array>
 </resources>
