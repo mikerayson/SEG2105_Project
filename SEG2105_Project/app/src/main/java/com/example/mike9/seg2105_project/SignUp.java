@@ -1,5 +1,6 @@
 package com.example.mike9.seg2105_project;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,11 @@ public class SignUp extends AppCompatActivity {
         });
 
     }
+    //Helper method for reaching welcome page
+    private void openWelcomePage(){
+        Intent openWelcome = new Intent(getApplicationContext(), WelcomeScreen.class);
+        startActivity(openWelcome);
+    }
 
     public void onClickConfirm(View v){
         //Retrieves the email and password
@@ -81,6 +87,7 @@ public class SignUp extends AppCompatActivity {
         }
         mRef.child("Users").child(accountType).child(firstName).setValue(lastName);
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
+        openWelcomePage();                                                                             //Goes to welcome screen after registering
     }
 }
 
