@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,7 +37,7 @@ public class AddService extends AppCompatActivity {
     public void onClickAddService(View view){
         //Check if user is admin
         String userId = user.getUid();
-        //if (userId == "hjOUPe63AgRaulruxjlgayLzsr52") {
+        if (userId.equals("hjOUPe63AgRaulruxjlgayLzsr52")) {
             //Get the information from the EditTexts
             EditText mServiceName = (EditText) findViewById(R.id.serviceName);
             EditText mServiceRate = (EditText) findViewById(R.id.serviceRate);
@@ -44,7 +45,6 @@ public class AddService extends AppCompatActivity {
             String serviceRate = mServiceRate.getText().toString();
 
             if (!serviceName.isEmpty() && !serviceRate.isEmpty()) {
-
                 mRef.child("Services").child(serviceName).setValue(serviceRate);
                 Toast.makeText(AddService.this, "Change made", Toast.LENGTH_SHORT).show();
                 mServiceName.setText("");
@@ -52,10 +52,21 @@ public class AddService extends AppCompatActivity {
             } else {
                 Toast.makeText(AddService.this, "Text field blank", Toast.LENGTH_SHORT).show();
             }
-        //} else {
-        //   Toast.makeText(AddService.this, "You do not have the required permission", Toast.LENGTH_SHORT).show();
-        //}
-
+        } else {
+           Toast.makeText(AddService.this, "You do not have the required permission", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    public void onClickDeleteService(View view){
+
+        String userId = user.getUid();
+        if(userId.equals("hjOUPe63AgRaulruxjlgayLzsr52")) {
+            EditText mServiceName = (EditText) findViewById(R.id.serviceName);
+            String serviceName = mServiceName.getText().toString();
+            mRef.child("Services").child(serviceName).removeValue();
+            Toast.makeText(AddService.this, "Service Deleted", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(AddService.this, "You do not have the required permission", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
