@@ -89,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        
-
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -104,6 +101,5 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-
     }
 }
