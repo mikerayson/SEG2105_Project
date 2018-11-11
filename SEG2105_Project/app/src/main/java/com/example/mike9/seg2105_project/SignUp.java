@@ -85,7 +85,7 @@ public class SignUp extends AppCompatActivity {
             et2.requestFocus();
             return;
         }
-        mRef.child("Users").child(accountType).child(firstName).setValue(lastName);
+        mRef.child("Users").child(accountType).child(firstName).child(lastName).setValue(userID);
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
         openWelcomePage();                                                                             //Goes to welcome screen after registering
     }
