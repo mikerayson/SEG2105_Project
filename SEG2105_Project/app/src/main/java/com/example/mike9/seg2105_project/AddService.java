@@ -69,4 +69,8 @@ public class AddService extends AppCompatActivity {
             Toast.makeText(AddService.this, "You do not have the required permission", Toast.LENGTH_SHORT).show();
         }
     }
+
+  //  public void onClickEditService(View view){
+  //      String userId = user.getUid();
+  //  }
 }
