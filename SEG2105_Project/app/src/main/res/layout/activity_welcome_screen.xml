@@ -13,17 +13,8 @@
 
         <TextView
             android:id="@+id/Greeting"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginStart="163dp"
-            android:layout_marginLeft="163dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="163dp"
-            android:layout_marginRight="163dp"
-            android:text="@string/username"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/addService"
