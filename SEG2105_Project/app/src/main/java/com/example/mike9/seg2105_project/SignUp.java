@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,7 @@ public class SignUp extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapter;
     String accountType;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,11 @@ public class SignUp extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        //Code to reveal extra information for businesses
+        //Looking into layout inflators
+
+
+
 
     }
     //Helper method for reaching welcome page
@@ -85,7 +92,14 @@ public class SignUp extends AppCompatActivity {
             et2.requestFocus();
             return;
         }
-        mRef.child("Users").child(accountType).child(firstName).child(lastName).setValue(userID);
+        mRef = mRef.child("Users").child(accountType).child(userID);
+        mRef.child("firstname").setValue(firstName);
+        mRef.child("lastname").setValue(lastName);
+
+        //if business...
+        //adds business fields
+
+
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
         openWelcomePage();                                                                             //Goes to welcome screen after registering
     }

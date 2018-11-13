@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,13 +29,11 @@ public class WelcomeScreen extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mRef;
-
     private String userID;
+
     private String serviceName, serviceRate;
     private ListView serviceList;
     ArrayList<String> array;
-
-
 
 
 
@@ -49,12 +49,40 @@ public class WelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
+        //UI for the service list
         serviceList = findViewById(R.id.service_list);
         array = new ArrayList<>();
 
+        //Displays the greeting
+
+        mRef.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //UI for Greeting
+                TextView greeting = (TextView)findViewById(R.id.Greeting);
+                UserInformation user = new UserInformation();
+                /*user.setFirstname(dataSnapshot.child("Home Owner").child(userID).child("firstname").getValue().toString());
+                user.setLastname(dataSnapshot.child("Home Owner").child(userID).child("lastname").getValue().toString());
+                greeting.setText("Welcome " + user.getFirstname() + " " + user.getLastname());
+
+
+                ***
+                Since we need to declare the path to get the first and last name, we need to know whether or not the user
+                is a Homeowner or a service provider. Thats why I think we should have a different welcome page for
+                service providers.*/
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Displays the services
         mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 showData(dataSnapshot);
             }
 
