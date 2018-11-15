@@ -55,29 +55,6 @@
                 android:hint="Company Name"
                 android:inputType="textPersonName" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/service"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Service Offered"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/service_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Rate"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
-
             <EditText
                 android:id="@+id/phone_num"
                 android:layout_width="match_parent"
@@ -95,20 +72,40 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/liscensed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Liscence (Yes/No)"
-                android:inputType="textPersonName" />
-
-            <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="Description of Company"
                 android:inputType="textPersonName" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/licensed_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:onClick="onClickLicensed"
+                        android:text="I am licensed" />
+
+                    <RadioButton
+                        android:id="@+id/licensed_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClickNotLicensed"
+                        android:text="I am not licensed" />
+                </LinearLayout>
+            </RadioGroup>
 
         </LinearLayout>
 
