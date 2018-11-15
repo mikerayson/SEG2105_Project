@@ -118,15 +118,26 @@ public class SignUp extends AppCompatActivity {
         }
         else {
             //Need to add a check in for mandatory fields and validation
-
-            mRef = mRef.child("Users").child(accountType).child(userID);
-            mRef.child("firstname").setValue(firstName);
-            mRef.child("lastname").setValue(lastName);
-            mRef.child("companyName").setValue(CompName);
-            mRef.child("phoneNum").setValue(PhoneNum);
-            mRef.child("adress").setValue(Adress);
-            mRef.child("license").setValue(licensed);
-            mRef.child("description").setValue(Description);
+            if (accountType.equals("Service Provider")) {
+                if (CompName.isEmpty()){
+                    mCompName.setError("Enter a company name");
+                    mCompName.requestFocus();
+                    return;
+                }
+                if (Description.isEmpty()) {
+                    mDescription.setError("Enter a description for your company");
+                    mDescription.requestFocus();
+                    return;
+                }
+                mRef = mRef.child("Users").child(accountType).child(userID);
+                mRef.child("firstname").setValue(firstName);
+                mRef.child("lastname").setValue(lastName);
+                mRef.child("companyName").setValue(CompName);
+                mRef.child("phoneNum").setValue(PhoneNum);
+                mRef.child("adress").setValue(Adress);
+                mRef.child("license").setValue(licensed);
+                mRef.child("description").setValue(Description);
+            }
         }
 
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
