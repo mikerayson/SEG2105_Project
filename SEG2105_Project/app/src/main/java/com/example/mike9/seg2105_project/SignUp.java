@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.AccountType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,6 +34,7 @@ public class SignUp extends AppCompatActivity {
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String accountType;
+    private boolean licensed = false;
 
 
     @Override
@@ -73,13 +75,29 @@ public class SignUp extends AppCompatActivity {
         Intent openWelcome = new Intent(getApplicationContext(), WelcomeScreen.class);
         startActivity(openWelcome);
     }
+    public void onClickLicensed(View view){
+        licensed = true;
+    }
+    public void onClickNotLicensed(View view){
+        licensed = false;
+    }
 
     public void onClickConfirm(View v){
-        //Retrieves the email and password
-        EditText et1 = (EditText)findViewById(R.id.Firstname);
-        EditText et2 = (EditText)findViewById(R.id.Lastname);
+        //Retrieves the first name and last name
+        EditText et1 = findViewById(R.id.Firstname);
+        EditText et2 = findViewById(R.id.Lastname);
         String firstName = et1.getText().toString();
         String lastName = et2.getText().toString();
+        //Retrieves company information
+        EditText mCompName = findViewById(R.id.comp_name);
+        EditText mPhoneNum = findViewById(R.id.phone_num);
+        EditText mAdress = findViewById(R.id.adress);
+        EditText mDescription = findViewById(R.id.description);
+        //Converts them to strings
+        String CompName = mCompName.getText().toString();
+        String PhoneNum = mPhoneNum.getText().toString();
+        String Adress = mAdress.getText().toString();
+        String Description = mDescription.getText().toString();
 
         if(firstName.isEmpty()){
             et1.setError("Enter your first name");
@@ -92,13 +110,35 @@ public class SignUp extends AppCompatActivity {
             et2.requestFocus();
             return;
         }
-        mRef = mRef.child("Users").child(accountType).child(userID);
-        mRef.child("firstname").setValue(firstName);
-        mRef.child("lastname").setValue(lastName);
-
-        //if business...
-        //adds business fields
-
+        //Adds the information to the database
+        if (accountType.equals("Home Owner") ) {
+            mRef = mRef.child("Users").child(accountType).child(userID);
+            mRef.child("firstname").setValue(firstName);
+            mRef.child("lastname").setValue(lastName);
+        }
+        else {
+            //Need to add a check in for mandatory fields and validation
+            if (accountType.equals("Service Provider")) {
+                if (CompName.isEmpty()){
+                    mCompName.setError("Enter a company name");
+                    mCompName.requestFocus();
+                    return;
+                }
+                if (Description.isEmpty()) {
+                    mDescription.setError("Enter a description for your company");
+                    mDescription.requestFocus();
+                    return;
+                }
+                mRef = mRef.child("Users").child(accountType).child(userID);
+                mRef.child("firstname").setValue(firstName);
+                mRef.child("lastname").setValue(lastName);
+                mRef.child("companyName").setValue(CompName);
+                mRef.child("phoneNum").setValue(PhoneNum);
+                mRef.child("adress").setValue(Adress);
+                mRef.child("license").setValue(licensed);
+                mRef.child("description").setValue(Description);
+            }
+        }
 
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
         openWelcomePage();                                                                             //Goes to welcome screen after registering
