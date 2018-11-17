@@ -75,6 +75,11 @@ public class SignUp extends AppCompatActivity {
         Intent openWelcome = new Intent(getApplicationContext(), WelcomeScreen.class);
         startActivity(openWelcome);
     }
+    private void openSPWelcomePage(){
+        Intent servicePIN = new Intent(getApplicationContext(), SPWelcomeScreen.class);
+        startActivity(servicePIN);
+    }
+
     public void onClickLicensed(View view){
         licensed = true;
     }
@@ -141,7 +146,11 @@ public class SignUp extends AppCompatActivity {
         }
 
         Toast.makeText(SignUp.this, "Account added", Toast.LENGTH_SHORT).show();
-        openWelcomePage();                                                                             //Goes to welcome screen after registering
+        if(accountType.equals("Service Provider")){
+            openSPWelcomePage();                                                                           //Goes to welcome screen after registering
+        }else{
+            openWelcomePage();
+        }
     }
 }
 

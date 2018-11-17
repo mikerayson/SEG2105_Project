@@ -46,7 +46,7 @@ public class ExampleUnitTest {
     }
     @Test
     public void testSignUp(){
-        //signUpTest.openWelcomePage();
+        //signUpTest.openUserWelcomePage();
         assertNotNull(signUpTest);
     }
 }

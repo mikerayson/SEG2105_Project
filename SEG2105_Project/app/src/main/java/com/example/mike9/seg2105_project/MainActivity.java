@@ -14,9 +14,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mRef;
+    private String adminID = "hjOUPe63AgRaulruxjlgayLzsr52";
+
+
     EditText et1, et2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +48,17 @@ public class MainActivity extends AppCompatActivity {
         Intent register = new Intent(getApplicationContext(), SignUp.class);
         startActivity(register);
     }
-    public void openWelcomePage(){
+    public void openUserWelcomePage(){
         Intent login = new Intent(getApplicationContext(), WelcomeScreen.class);
         startActivity(login);
+    }
+    public void openAdminWelcomePage(){
+        Intent adminIN = new Intent(getApplicationContext(), AdminWelcomeScreen.class);
+        startActivity(adminIN);
+    }
+    public void openSPWelcomePage(){
+        Intent servicePIN = new Intent(getApplicationContext(), SPWelcomeScreen.class);
+        startActivity(servicePIN);
     }
 
     public void onClickLogin(View v){
@@ -57,8 +73,27 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                String userID;
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                openWelcomePage();
+                                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                                userID = user.getUid();
+                                mRef = mFirebaseDatabase.getReference();
+                                mRef = mRef.child("Users");
+
+
+
+                                    if (userID.equals(adminID)) {
+                                        openAdminWelcomePage();
+
+                                    } else if (false) {
+                                        openSPWelcomePage();
+
+                                    } else {
+                                        openUserWelcomePage();
+
+                                    }
+
+
                             } else {
                                 Toast.makeText(MainActivity.this, "Authentication failed :(", Toast.LENGTH_LONG).show();
                             }
