@@ -32,6 +32,8 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
+    private ListView times;
+    private ArrayList<String> arrayTimes;
     private ArrayList<String> array;
 
     private TextView txtView;
@@ -54,6 +56,17 @@ public class SPWelcomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_spwelcome_screen);
 
         //trying to display services provider has, needs to add service child in database
+        mRef.child("Users").child("Service Provider").child(userID).child("availability").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -64,5 +77,23 @@ public class SPWelcomeScreen extends AppCompatActivity {
     private void openAddServicePage(){
         Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
         startActivity(openAddPage);
+    }
+
+    public void onClickAddTimeSlot(View view){
+        Intent openTimeSlotPage = new Intent(this, addTimeSlot.class);
+        startActivity(openTimeSlotPage);
+    }
+
+    public void showData(DataSnapshot dataSnapshot){
+        arrayTimes.clear();
+        Timeslot newTimeSlot = new Timeslot();
+        for(DataSnapshot ds : dataSnapshot.child("Users").child("Service Provider").child(userID).child("availability").getChildren()){
+            newTimeSlot.setDay(ds.getValue(Timeslot.class).getDay());
+            newTimeSlot.setStartHour(ds.getValue(Timeslot.class).getStartHour());
+            newTimeSlot.setFinishHour(ds.getValue(Timeslot.class).getFinishHour());
+            arrayTimes.add(newTimeSlot.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
+        times.setAdapter(adapter);
     }
 }

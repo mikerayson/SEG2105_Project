@@ -9,7 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="54dp">
 
         <TextView
             android:id="@+id/textView2"
@@ -20,12 +22,27 @@
             tools:layout_editor_absoluteY="16dp"
             tools:text="Service Provider" />
 
-        <Button
-            android:id="@+id/addService"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Service"
-            android:onClick="onClickAddServiceSP"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addService"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddServiceSP"
+                android:text="Add Service" />
+
+            <Button
+                android:id="@+id/addTimeSlot"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickAddTimeSlot"
+                android:text="Add Availability" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/timeList"

@@ -71,11 +71,6 @@ public class SignUp extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        //Code to reveal extra information for businesses
-        //Looking into layout inflators
-
-
-
 
     }
     //Helper method for reaching welcome page
