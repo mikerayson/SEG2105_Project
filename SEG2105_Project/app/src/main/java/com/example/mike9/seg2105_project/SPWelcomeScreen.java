@@ -56,10 +56,10 @@ public class SPWelcomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_spwelcome_screen);
 
         //trying to display services provider has, needs to add service child in database
-        mRef.child("Users").child("Service Provider").child(userID).child("availability").addValueEventListener(new ValueEventListener() {
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
+                //showData(dataSnapshot);
             }
 
             @Override
@@ -69,14 +69,13 @@ public class SPWelcomeScreen extends AppCompatActivity {
         });
 
     }
-
-    public void onClickAddServiceSP(View view){
-        openAddServicePage();
-    }
-
     private void openAddServicePage(){
         Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
         startActivity(openAddPage);
+    }
+
+    public void onClickAddServiceSP(View view){
+        openAddServicePage();
     }
 
     public void onClickAddTimeSlot(View view){
@@ -91,6 +90,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
             newTimeSlot.setDay(ds.getValue(Timeslot.class).getDay());
             newTimeSlot.setStartHour(ds.getValue(Timeslot.class).getStartHour());
             newTimeSlot.setFinishHour(ds.getValue(Timeslot.class).getFinishHour());
+
             arrayTimes.add(newTimeSlot.toString());
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
