@@ -15,11 +15,28 @@ public class ExampleUnitTest {
     private ServiceInformation service;
     private SignUp signUpTest;
 
+    private AdminWelcomeScreen adminScreen;
+    private UserInformation userInfo;
+
     @Before
-    public void init(){}
+    public void init(){
+        adminScreen = new AdminWelcomeScreen();
+        userInfo = new UserInformation();
+        userInfo.setFirstname("John");
+        userInfo.setLastname("Doe");
+    }
 
     @Test
-    public void test(){}
+    public void testUserInfo(){
+        assertEquals("John",userInfo.getFirstname());
+        assertEquals("Doe",userInfo.getLastname());
+    }
+
+    @Test
+    public void test2(){
+        adminScreen.openAddService();
+        assertNotNull(adminScreen);
+    }
 }
 
 
