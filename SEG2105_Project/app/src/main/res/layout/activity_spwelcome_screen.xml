@@ -27,6 +27,16 @@
             android:text="Add Service"
             android:onClick="onClickAddServiceSP"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/timeList"
+            android:layout_width="match_parent"
+            android:layout_height="198dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/serviceList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
