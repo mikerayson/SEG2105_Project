@@ -27,6 +27,13 @@
             android:text="Add Service"
             android:onClick="onClickAddServiceSP"/>
 
+        <Button
+            android:id="@+id/delButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickdeleteService"
+            android:text="DELETE SERVICE" />
+
         <ListView
             android:id="@+id/timeList"
             android:layout_width="match_parent"

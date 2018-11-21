@@ -38,6 +38,9 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_spwelcome_screen);
+
         txtView = (TextView) findViewById(R.id.textView2);
 
         //Carries over the user sign in
@@ -47,22 +50,53 @@ public class SPWelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        serviceList = findViewById(R.id.service_list);
+        serviceList = findViewById(R.id.serviceList);
         array = new ArrayList<>();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spwelcome_screen);
+
 
         //trying to display services provider has, needs to add service child in database
+
+        //Displays the services
+        mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
     public void onClickAddServiceSP(View view){
         openAddServicePage();
     }
+    public void onClickdeleteService(View view){
+        openDeleteServicePage();
+    }
 
     private void openAddServicePage(){
         Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
         startActivity(openAddPage);
+    }
+    private void openDeleteServicePage(){
+        Intent openDelPage = new Intent(SPWelcomeScreen.this, SPDeleteService.class);
+        startActivity(openDelPage);
+    }
+
+    private void showData (DataSnapshot dataSnapshot){
+        array.clear();
+        ServiceInformation sInfo = new ServiceInformation();
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            sInfo.setName(ds.getKey());
+            sInfo.setRate(ds.getValue().toString());
+            array.add(sInfo.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        serviceList.setAdapter(adapter);
     }
 }
