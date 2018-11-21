@@ -21,6 +21,10 @@
         <activity android:name=".SignUp" />
         <activity android:name=".AddService" />
         <activity android:name=".AdminWelcomeScreen" />
+        <activity android:name=".WelcomeScreen"/>
+        <activity android:name=".SPAddService"/>
+        <activity android:name=".SPDeleteService"/>
+        <activity android:name=".ServiceInfoPage"/>
         <activity android:name=".SPWelcomeScreen"></activity>
     </application>
 

@@ -58,6 +58,11 @@ public class SPWelcomeScreen extends AppCompatActivity {
     }
 
     public void onClickAddServiceSP(View view){
+        openAddServicePage();
+    }
 
+    private void openAddServicePage(){
+        Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
+        startActivity(openAddPage);
     }
 }

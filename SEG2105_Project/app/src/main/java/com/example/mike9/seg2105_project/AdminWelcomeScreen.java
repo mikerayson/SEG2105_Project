@@ -117,11 +117,12 @@ public class AdminWelcomeScreen extends AppCompatActivity {
             }
         });
     }
-
-
-    public void onClickAddService(View view){
+    public void openAddService(){
         Intent nextPage = new Intent(getApplicationContext(), AddService.class);
         startActivity(nextPage);
+    }
+    public void onClickAddService(View view){
+        openAddService();
     }
 
     //Put code to view active services here
