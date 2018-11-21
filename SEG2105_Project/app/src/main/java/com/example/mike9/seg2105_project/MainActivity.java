@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(register);
     }
     public void openUserWelcomePage(){
-        Intent login = new Intent(getApplicationContext(), userWelcomeScreen.class);
+        Intent login = new Intent(getApplicationContext(), WelcomeScreen.class);
         startActivity(login);
     }
     public void openAdminWelcomePage(){
