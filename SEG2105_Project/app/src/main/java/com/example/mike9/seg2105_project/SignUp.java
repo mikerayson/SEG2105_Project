@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class SignUp extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
+        final LinearLayout serviceLayout = findViewById(R.id.comp_info);
+
         spinner = findViewById(R.id.spinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.account_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,6 +60,11 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 accountType = parent.getItemAtPosition(position).toString();
+                if(accountType.equals("Service Provider")){
+                    serviceLayout.setVisibility(View.VISIBLE);
+                } else{
+                    serviceLayout.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -72,7 +80,7 @@ public class SignUp extends AppCompatActivity {
     }
     //Helper method for reaching welcome page
     private void openWelcomePage(){
-        Intent openWelcome = new Intent(getApplicationContext(), WelcomeScreen.class);
+        Intent openWelcome = new Intent(getApplicationContext(), userWelcomeScreen.class);
         startActivity(openWelcome);
     }
     private void openSPWelcomePage(){
@@ -142,6 +150,7 @@ public class SignUp extends AppCompatActivity {
                 mRef.child("adress").setValue(Adress);
                 mRef.child("license").setValue(licensed);
                 mRef.child("description").setValue(Description);
+                mRef.child("Services").child("Service").setValue("List of Services");
             }
         }
 

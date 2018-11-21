@@ -6,9 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +36,10 @@ public class WelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
-    ArrayList<String> array;
+    private ArrayList<String> array;
+    private String service;
+
+    private Button buttonAddService;
 
 
 
@@ -49,9 +55,19 @@ public class WelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
+        buttonAddService = findViewById(R.id.addService);
+
         //UI for the service list
         serviceList = findViewById(R.id.service_list);
         array = new ArrayList<>();
+
+        //hides addService button if user isn't admin
+        if(userID.equals("hjOUPe63AgRaulruxjlgayLzsr52")){
+            buttonAddService.setVisibility(View.VISIBLE);
+        } else {
+            buttonAddService.setVisibility(View.GONE);
+        }
+
 
         //Displays the greeting
 
@@ -91,6 +107,24 @@ public class WelcomeScreen extends AppCompatActivity {
 
             }
         });
+
+        serviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = (String) serviceList.getItemAtPosition(position);
+
+                //get service name
+                String parts[] = value.split(",");
+                service = parts[0];
+                service.trim();
+
+                Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
+                Intent nextPage = new Intent(getApplicationContext(), ServiceInfoPage.class);
+                nextPage.putExtra(service, "ServiceName");
+                startActivity(nextPage);
+
+            }
+        });
     }
 
 
@@ -98,6 +132,7 @@ public class WelcomeScreen extends AppCompatActivity {
         Intent nextPage = new Intent(getApplicationContext(), AddService.class);
         startActivity(nextPage);
     }
+
     //Put code to view active services here
     private void showData (DataSnapshot dataSnapshot){
         array.clear();
@@ -105,11 +140,8 @@ public class WelcomeScreen extends AppCompatActivity {
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             sInfo.setName(ds.getKey());
             sInfo.setRate(ds.getValue().toString());
-
-                array.add(sInfo.toString());
-
+            array.add(sInfo.toString());
         }
-
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         serviceList.setAdapter(adapter);
     }
