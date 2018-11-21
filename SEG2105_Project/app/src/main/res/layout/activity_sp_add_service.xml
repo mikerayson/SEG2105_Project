@@ -16,13 +16,6 @@
             android:layout_height="wrap_content"
             android:text="Select the service you wish to add" />
 
-        <Button
-            android:id="@+id/deleteServiceSP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Service"
-            android:onClick="onClickToDelete"/>
-
         <ListView
             android:id="@+id/serviceListSP"
             android:layout_width="match_parent"

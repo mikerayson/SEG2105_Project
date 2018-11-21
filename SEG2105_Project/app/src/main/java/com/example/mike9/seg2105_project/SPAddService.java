@@ -47,7 +47,7 @@ public class SPAddService extends AppCompatActivity {
         serviceListSP = findViewById(R.id.serviceListSP);
         array = new ArrayList<>();
 
-        mRef.child("Services").addValueEventListener(new ValueEventListener() {
+        /*mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -58,9 +58,9 @@ public class SPAddService extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
-        serviceListSP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*serviceListSP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) serviceListSP.getItemAtPosition(position);
@@ -75,7 +75,7 @@ public class SPAddService extends AppCompatActivity {
                 Toast.makeText(SPAddService.this, serviceName + " added", Toast.LENGTH_SHORT).show();
                 mRef.child("Users").child("Service Providers").child(userID).child("Services").child(serviceName).setValue(serviceRate);
             }
-        });
+        });*/
     }
 
     private void showData (DataSnapshot dataSnapshot){

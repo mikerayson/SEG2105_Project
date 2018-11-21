@@ -38,7 +38,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        txtView = (TextView) findViewById(R.id.textView);
+        txtView = (TextView) findViewById(R.id.textView2);
 
         //Carries over the user sign in
         mAuth = FirebaseAuth.getInstance();
@@ -58,7 +58,6 @@ public class SPWelcomeScreen extends AppCompatActivity {
     }
 
     public void onClickAddServiceSP(View view){
-        Intent i = new Intent(SPWelcomeScreen.this, SPAddService.class);
-        startActivity(i);
+
     }
 }

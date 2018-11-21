@@ -80,7 +80,7 @@ public class SignUp extends AppCompatActivity {
     }
     //Helper method for reaching welcome page
     private void openWelcomePage(){
-        Intent openWelcome = new Intent(getApplicationContext(), WelcomeScreen.class);
+        Intent openWelcome = new Intent(getApplicationContext(), userWelcomeScreen.class);
         startActivity(openWelcome);
     }
     private void openSPWelcomePage(){
