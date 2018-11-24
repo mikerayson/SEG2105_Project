@@ -61,7 +61,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
         mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
+                showData2(dataSnapshot);
             }
 
             @Override
@@ -88,7 +88,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
         startActivity(openDelPage);
     }
 
-    private void showData (DataSnapshot dataSnapshot){
+    private void showData2(DataSnapshot dataSnapshot){
         array.clear();
         ServiceInformation sInfo = new ServiceInformation();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
