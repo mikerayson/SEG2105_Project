@@ -32,6 +32,8 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
+    private ListView times;
+    private ArrayList<String> arrayTimes;
     private ArrayList<String> array;
 
     private TextView txtView;
@@ -56,20 +58,28 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
 
         //trying to display services provider has, needs to add service child in database
-
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //showData(dataSnapshot);
+            }
+          
         //Displays the services
         mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData2(dataSnapshot);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
+    }
+    private void openAddServicePage(){
+        Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
+        startActivity(openAddPage);
     }
 
     public void onClickAddServiceSP(View view){
@@ -79,13 +89,9 @@ public class SPWelcomeScreen extends AppCompatActivity {
         openDeleteServicePage();
     }
 
-    private void openAddServicePage(){
-        Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
-        startActivity(openAddPage);
-    }
-    private void openDeleteServicePage(){
-        Intent openDelPage = new Intent(SPWelcomeScreen.this, SPDeleteService.class);
-        startActivity(openDelPage);
+    public void onClickAddTimeSlot(View view){
+        Intent openTimeSlotPage = new Intent(this, addTimeSlot.class);
+        startActivity(openTimeSlotPage);
     }
 
     private void showData2(DataSnapshot dataSnapshot){
