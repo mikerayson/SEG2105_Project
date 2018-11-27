@@ -9,24 +9,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="3dp">
+
+        <EditText
+            android:id="@+id/searchText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search Here" />
+
+        <ListView
+            android:id="@+id/service_list"
+            android:layout_width="match_parent"
+            android:layout_height="443dp" />
 
         <TextView
             android:id="@+id/Greeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/addService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickAddService"
-            android:text="Add a Service" />
-
-        <ListView
-            android:id="@+id/service_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

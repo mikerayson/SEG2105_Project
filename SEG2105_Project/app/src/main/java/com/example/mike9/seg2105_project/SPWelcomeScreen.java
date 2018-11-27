@@ -55,14 +55,6 @@ public class SPWelcomeScreen extends AppCompatActivity {
         serviceList = findViewById(R.id.serviceList);
         array = new ArrayList<>();
 
-
-
-        //trying to display services provider has, needs to add service child in database
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //showData(dataSnapshot);
-            }
           
         //Displays the services
         mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
@@ -77,10 +69,15 @@ public class SPWelcomeScreen extends AppCompatActivity {
         });
 
     }
+
     private void openAddServicePage(){
         Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
         startActivity(openAddPage);
     }
+    private void openDeleteServicePage(){
+            Intent openDelPage = new Intent(SPWelcomeScreen.this, SPDeleteService.class);
+            startActivity(openDelPage);
+        }
 
     public void onClickAddServiceSP(View view){
         openAddServicePage();

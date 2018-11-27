@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +42,7 @@ public class WelcomeScreen extends AppCompatActivity {
     private ArrayList<String> array;
     private String service;
 
-    private Button buttonAddService;
-
+    EditText searchText;
 
 
     @Override
@@ -55,21 +57,34 @@ public class WelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        buttonAddService = findViewById(R.id.addService);
+
 
         //UI for the service list
+        searchText = (EditText)findViewById(R.id.searchText);
         serviceList = findViewById(R.id.service_list);
         array = new ArrayList<>();
 
-        //hides addService button if user isn't admin
-        if(userID.equals("hjOUPe63AgRaulruxjlgayLzsr52")){
-            buttonAddService.setVisibility(View.VISIBLE);
-        } else {
-            buttonAddService.setVisibility(View.GONE);
-        }
 
 
-        //Displays the greeting
+
+
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s,int start,int count,int after){
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s,int start,int before,int after){
+                Toast.makeText(WelcomeScreen.this, "TEXT CHANGED SUCESSFULLY", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String result = searchText.getText().toString();
+                Toast.makeText(WelcomeScreen.this, result, Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         mRef.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
