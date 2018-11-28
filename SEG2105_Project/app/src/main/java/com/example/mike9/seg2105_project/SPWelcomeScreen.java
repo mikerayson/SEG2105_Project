@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class SPWelcomeScreen extends AppCompatActivity {
 
-    //Firebase Dependencies
+    //Firebase dependencies
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
@@ -36,16 +36,15 @@ public class SPWelcomeScreen extends AppCompatActivity {
     private ArrayList<String> arrayTimes;
     private ArrayList<String> array;
 
-    private TextView txtView;
+    private TextView textView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spwelcome_screen);
 
-        txtView = (TextView) findViewById(R.id.textView2);
+        textView = findViewById(R.id.textView2);
 
-        //Carries over the user sign in
+        //carries iver the user sign in
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -55,21 +54,15 @@ public class SPWelcomeScreen extends AppCompatActivity {
         serviceList = findViewById(R.id.serviceList);
         array = new ArrayList<>();
 
+        times = findViewById(R.id.timeList);
 
-
-        //trying to display services provider has, needs to add service child in database
-        mRef.addValueEventListener(new ValueEventListener() {
+        //displaying times
+        mRef.child("Users").child("Service Provider").child(userID).child("availability").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //showData(dataSnapshot);
+                showTime(dataSnapshot);
             }
-          
-        //Displays the services
-        mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData2(dataSnapshot);
-            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -77,32 +70,17 @@ public class SPWelcomeScreen extends AppCompatActivity {
         });
 
     }
-    private void openAddServicePage(){
-        Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
-        startActivity(openAddPage);
-    }
 
-    public void onClickAddServiceSP(View view){
-        openAddServicePage();
-    }
-    public void onClickdeleteService(View view){
-        openDeleteServicePage();
-    }
-
-    public void onClickAddTimeSlot(View view){
-        Intent openTimeSlotPage = new Intent(this, addTimeSlot.class);
-        startActivity(openTimeSlotPage);
-    }
-
-    private void showData2(DataSnapshot dataSnapshot){
+    public void showTime(DataSnapshot dataSnapshot){
         array.clear();
-        ServiceInformation sInfo = new ServiceInformation();
+        Timeslot timeslot = new Timeslot();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
-            sInfo.setName(ds.getKey());
-            sInfo.setRate(ds.getValue().toString());
-            array.add(sInfo.toString());
+            timeslot.setDay(ds.child("day").getValue().toString());
+            timeslot.setFinishHour(Integer.parseInt(ds.child("finishHour").getValue().toString()));
+            timeslot.setStartHour(Integer.parseInt(ds.child("startHour").getValue().toString().toString()));
+            array.add(timeslot.toString());
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
-        serviceList.setAdapter(adapter);
+        times.setAdapter(adapter);
     }
 }
