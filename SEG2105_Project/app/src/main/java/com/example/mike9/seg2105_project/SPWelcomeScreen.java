@@ -34,9 +34,10 @@ public class SPWelcomeScreen extends AppCompatActivity {
     private ListView serviceList;
     private ListView times;
     private ArrayList<String> arrayTimes;
-    private ArrayList<String> array;
+    private ArrayList<String> arrayServices;
 
     private TextView textView;
+    private Button addTime, addService, delService;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -52,8 +53,8 @@ public class SPWelcomeScreen extends AppCompatActivity {
         userID = user.getUid();
 
         serviceList = findViewById(R.id.serviceList);
-        array = new ArrayList<>();
-
+        arrayServices = new ArrayList<>();
+        arrayTimes = new ArrayList<>();
         times = findViewById(R.id.timeList);
 
         //displaying times
@@ -69,18 +70,58 @@ public class SPWelcomeScreen extends AppCompatActivity {
             }
         });
 
+        //displaying services
+        mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showService(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void showTime(DataSnapshot dataSnapshot){
-        array.clear();
+        arrayTimes.clear();
         Timeslot timeslot = new Timeslot();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             timeslot.setDay(ds.child("day").getValue().toString());
             timeslot.setFinishHour(Integer.parseInt(ds.child("finishHour").getValue().toString()));
             timeslot.setStartHour(Integer.parseInt(ds.child("startHour").getValue().toString().toString()));
-            array.add(timeslot.toString());
+            arrayTimes.add(timeslot.toString());
         }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
         times.setAdapter(adapter);
+    }
+
+    public void showService(DataSnapshot dataSnapshot){
+        arrayServices.clear();
+        ServiceInformation  sInfo = new ServiceInformation();
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            sInfo.setName(ds.getKey().toString());
+            sInfo.setRate(ds.getValue().toString());
+            arrayServices.add(sInfo.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayServices);
+        serviceList.setAdapter(adapter);
+    }
+
+    public void onClickDeleteService(View view){
+        Intent i = new Intent(this, SPDeleteService.class);
+        startActivity(i);
+    }
+
+    public void onClickAddTimeSlot(View view){
+        Intent i = new Intent(this, addTimeSlot.class);
+        startActivity(i);
+    }
+
+    public void onClickAddServiceSP(View view){
+        Intent i = new Intent(this, SPAddService.class);
+        startActivity(i);
     }
 }

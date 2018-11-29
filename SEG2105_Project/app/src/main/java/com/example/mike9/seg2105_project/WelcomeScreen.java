@@ -117,10 +117,9 @@ public class WelcomeScreen extends AppCompatActivity {
                 String parts[] = value.split(",");
                 service = parts[0];
                 service.trim();
-
-                Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
+                //change activity
                 Intent nextPage = new Intent(getApplicationContext(), ServiceInfoPage.class);
-                nextPage.putExtra(service, "ServiceName");
+                nextPage.putExtra("ServiceName", service);
                 startActivity(nextPage);
 
             }
