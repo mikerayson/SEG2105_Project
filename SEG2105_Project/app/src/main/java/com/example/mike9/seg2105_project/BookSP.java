@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +26,8 @@ public class BookSP extends AppCompatActivity {
     private FirebaseUser user;
 
     String spID, spEmail;
+    TextView tvFn, tvLn, tvCn, tvEmail, tvPn, tvAddress, tvLicense, tvDescrip, tvRating;
+    Spinner spinnerTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +40,20 @@ public class BookSP extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        Intent intent = getIntent();
-        spEmail = intent.getStringExtra("email");
+        //Intent intent = getIntent();
+        //spEmail = intent.getStringExtra("email");
 
+        //initialize textviews
+        tvFn = findViewById(R.id.firstName);
+        tvLn = findViewById(R.id.Lastname);
+        tvCn = findViewById(R.id.companyName);
+        tvEmail = findViewById(R.id.email);
+        tvPn = findViewById(R.id.phoneNumber);
+        tvAddress = findViewById(R.id.address);
+        tvLicense = findViewById(R.id.licensed);
+        tvDescrip = findViewById(R.id.description);
+        tvRating = findViewById(R.id.rating);
+        spinnerTime = findViewById(R.id.spinner2);
 
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,9 +70,23 @@ public class BookSP extends AppCompatActivity {
 
     public void getID(DataSnapshot dataSnapshot){
         for(DataSnapshot ds : dataSnapshot.getChildren()){
-            if(ds.child("email").getValue().equals(spEmail)){
+            if(ds.child("firstname").getValue().equals(spEmail)){
                 spID = ds.getKey();
+                //set all textfields
+                tvFn.setText(ds.child("firstname").getValue().toString());
+                tvLn.setText(ds.child("lastname").getValue().toString());
+                tvCn.setText(ds.child("companyName").getValue().toString());
+                tvEmail.setText(ds.child("email").getValue().toString());
+                tvPn.setText(ds.child("phoneNumber").getValue().toString());
+                tvAddress.setText(ds.child("address").getValue().toString());
+                tvLicense.setText(ds.child("address").getValue().toString());
+                tvDescrip.setText(ds.child("description").getValue().toString());
+                tvRating.setText(ds.child("rating").getValue().toString());
             }
         }
+    }
+
+    public void onClickBook(){
+        //add a thing in database for SP and user
     }
 }

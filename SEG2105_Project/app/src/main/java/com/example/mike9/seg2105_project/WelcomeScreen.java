@@ -145,4 +145,10 @@ public class WelcomeScreen extends AppCompatActivity {
         serviceList.setAdapter(adapter);
     }
 
+    public void onClickRating(View view){
+        //goes to a page where a users history is shown and can write a review
+        //create an activity to show the users booking history in a list view
+        //when an SP is selected, can write a review about that SP
+    }
+
 }

@@ -53,7 +53,7 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/licenced"
+            android:id="@+id/licensed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
@@ -76,10 +76,11 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="book"
+            android:onClick="onClickBook"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -23,10 +23,18 @@
             android:onClick="onClickAddService"
             android:text="Add a Service" />
 
+        <Button
+            android:id="@+id/myRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Ratings/History"
+            android:onClick="onClickRating"/>
+
         <ListView
             android:id="@+id/service_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

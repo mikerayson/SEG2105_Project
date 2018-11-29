@@ -56,7 +56,6 @@ public class ServiceInfoPage extends AppCompatActivity {
         serviceNameText.setText(serviceName);
 
         //check which SP's have that service
-
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,8 +76,6 @@ public class ServiceInfoPage extends AppCompatActivity {
                 Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
                 nextPage.putExtra("email", email);
                 startActivity(nextPage);
-
-
             }
         });
     }
@@ -88,7 +85,7 @@ public class ServiceInfoPage extends AppCompatActivity {
         //class to store data
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             if(ds.child("Services").child(serviceName).exists()){
-                arrayID.add(ds.child("email").getValue().toString());
+                arrayID.add(ds.child("firstname").getValue().toString());
             }
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayID);
