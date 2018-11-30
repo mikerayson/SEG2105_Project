@@ -88,5 +88,8 @@ public class BookSP extends AppCompatActivity {
 
     public void onClickBook(){
         //add a thing in database for SP and user
+        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("name").setValue("time");
+        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("time").setValue("time");
+        mRef.child("Users").child("Home Owner").child(userID).child("History").child(spID).child("time");
     }
 }

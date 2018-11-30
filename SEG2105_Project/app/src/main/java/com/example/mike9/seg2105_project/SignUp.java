@@ -146,7 +146,6 @@ public class SignUp extends AppCompatActivity {
                 mRef.child("license").setValue(licensed);
                 mRef.child("email").setValue(user.getEmail());
                 mRef.child("description").setValue(Description);
-                //mRef.child("Services"); idk
             }
         }
 
