@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,8 +47,9 @@ public class SPWelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        serviceList = findViewById(R.id.service_list);
+        serviceList = findViewById(R.id.user_list);
         array = new ArrayList<>();
+        arrayTimes = new ArrayList<>();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spwelcome_screen);
@@ -59,7 +58,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //showData(dataSnapshot);
+                showData(dataSnapshot);
             }
 
             @Override

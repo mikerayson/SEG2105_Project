@@ -23,4 +23,8 @@ public class UserInformation {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public String toString(){
+        return getFirstname()+"\n"+getLastname();
+    }
 }

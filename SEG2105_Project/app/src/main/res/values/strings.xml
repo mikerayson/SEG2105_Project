@@ -11,6 +11,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="admin_panel">Admin Panel</string>
     <string-array name="account_types">
         <item>Service Provider</item>
         <item>Home Owner</item>

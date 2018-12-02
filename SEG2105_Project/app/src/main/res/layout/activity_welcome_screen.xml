@@ -24,7 +24,7 @@
             android:text="Add a Service" />
 
         <ListView
-            android:id="@+id/service_list"
+            android:id="@+id/user_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

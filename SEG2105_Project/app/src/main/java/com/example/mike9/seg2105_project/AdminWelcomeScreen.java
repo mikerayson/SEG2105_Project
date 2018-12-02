@@ -1,6 +1,5 @@
 package com.example.mike9.seg2105_project;
 
-import android.app.Service;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class AdminWelcomeScreen extends AppCompatActivity {
 
@@ -36,17 +33,20 @@ public class AdminWelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
-    private ArrayList<String> array;
+    private ListView userList;
+    private ArrayList<String> serviceArray;
+    private ArrayList<String> userArray;
     private String service;
 
     private Button buttonAddService;
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
+        setContentView(R.layout.activity_admin_welcome_screen);
 
         //Carries over the user sign in
         mAuth = FirebaseAuth.getInstance();
@@ -59,25 +59,19 @@ public class AdminWelcomeScreen extends AppCompatActivity {
 
         //UI for the service list
         serviceList = findViewById(R.id.service_list);
-        array = new ArrayList<>();
+        userList = findViewById(R.id.user_list);
+        serviceArray = new ArrayList<>();
+        userArray = new ArrayList<>();
 
-        //hides addService button if user isn't admin
-        if(userID.equals("hjOUPe63AgRaulruxjlgayLzsr52")){
-            buttonAddService.setVisibility(View.VISIBLE);
-        } else {
-            buttonAddService.setVisibility(View.GONE);
-        }
+
 
 
         //Displays the greeting
 
-        mRef.child("Users").addValueEventListener(new ValueEventListener() {
+        mRef.child("Users").child("Home Owner").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //UI for Greeting
-                TextView greeting = (TextView)findViewById(R.id.Greeting);
-                UserInformation user = new UserInformation();
-
+                showUserData(dataSnapshot);
             }
 
             @Override
@@ -90,9 +84,8 @@ public class AdminWelcomeScreen extends AppCompatActivity {
         mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
+                showServiceData(dataSnapshot);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -126,16 +119,27 @@ public class AdminWelcomeScreen extends AppCompatActivity {
     }
 
     //Put code to view active services here
-    private void showData (DataSnapshot dataSnapshot){
-        array.clear();
+    private void showServiceData (DataSnapshot dataSnapshot){
+        serviceArray.clear();
         ServiceInformation sInfo = new ServiceInformation();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             sInfo.setName(ds.getKey());
             sInfo.setRate(ds.getValue().toString());
-            array.add(sInfo.toString());
+            serviceArray.add(sInfo.toString());
         }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, serviceArray);
         serviceList.setAdapter(adapter);
+    }
+    private void showUserData(DataSnapshot dataSnapshot){
+        userArray.clear();
+        UserInformation user = new UserInformation();
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            user.setFirstname(ds.getKey());
+            user.setLastname(ds.getValue().toString());
+            userArray.add(user.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userArray);
+        userList.setAdapter(adapter);
     }
 
 }
