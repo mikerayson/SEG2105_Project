@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class SPWelcomeScreen extends AppCompatActivity {
 
-    //Firebase dependencies
+    //Firebase Dependencies
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
@@ -34,47 +34,32 @@ public class SPWelcomeScreen extends AppCompatActivity {
     private ListView serviceList;
     private ListView times;
     private ArrayList<String> arrayTimes;
-    private ArrayList<String> arrayServices;
+    private ArrayList<String> array;
 
-    private TextView textView;
-    private Button addTime, addService, delService;
+    private TextView txtView;
 
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spwelcome_screen);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        txtView = (TextView) findViewById(R.id.textView2);
 
-        textView = findViewById(R.id.textView2);
-
-        //carries iver the user sign in
+        //Carries over the user sign in
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        serviceList = findViewById(R.id.serviceList);
-        arrayServices = new ArrayList<>();
-        arrayTimes = new ArrayList<>();
-        times = findViewById(R.id.timeList);
+        serviceList = findViewById(R.id.service_list);
+        array = new ArrayList<>();
 
-        //displaying times
-        mRef.child("Users").child("Service Provider").child(userID).child("availability").addValueEventListener(new ValueEventListener() {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_spwelcome_screen);
+
+        //trying to display services provider has, needs to add service child in database
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showTime(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //displaying services
-        mRef.child("Users").child("Service Provider").child(userID).child("Services").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showService(dataSnapshot);
+                //showData(dataSnapshot);
             }
 
             @Override
@@ -84,44 +69,31 @@ public class SPWelcomeScreen extends AppCompatActivity {
         });
 
     }
-
-    public void showTime(DataSnapshot dataSnapshot){
-        arrayTimes.clear();
-        Timeslot timeslot = new Timeslot();
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
-            timeslot.setDay(ds.child("day").getValue().toString());
-            timeslot.setFinishHour(Integer.parseInt(ds.child("finishHour").getValue().toString()));
-            timeslot.setStartHour(Integer.parseInt(ds.child("startHour").getValue().toString().toString()));
-            arrayTimes.add(timeslot.toString());
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
-        times.setAdapter(adapter);
-    }
-
-    public void showService(DataSnapshot dataSnapshot){
-        arrayServices.clear();
-        ServiceInformation  sInfo = new ServiceInformation();
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
-            sInfo.setName(ds.getKey().toString());
-            sInfo.setRate(ds.getValue().toString());
-            arrayServices.add(sInfo.toString());
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayServices);
-        serviceList.setAdapter(adapter);
-    }
-
-    public void onClickDeleteService(View view){
-        Intent i = new Intent(this, SPDeleteService.class);
-        startActivity(i);
-    }
-
-    public void onClickAddTimeSlot(View view){
-        Intent i = new Intent(this, addTimeSlot.class);
-        startActivity(i);
+    private void openAddServicePage(){
+        Intent openAddPage = new Intent(SPWelcomeScreen.this, SPAddService.class);
+        startActivity(openAddPage);
     }
 
     public void onClickAddServiceSP(View view){
-        Intent i = new Intent(this, SPAddService.class);
-        startActivity(i);
+        openAddServicePage();
+    }
+
+    public void onClickAddTimeSlot(View view){
+        Intent openTimeSlotPage = new Intent(this, addTimeSlot.class);
+        startActivity(openTimeSlotPage);
+    }
+
+    public void showData(DataSnapshot dataSnapshot){
+        arrayTimes.clear();
+        Timeslot newTimeSlot = new Timeslot();
+        for(DataSnapshot ds : dataSnapshot.child("Users").child("Service Provider").child(userID).child("availability").getChildren()){
+            newTimeSlot.setDay(ds.getValue(Timeslot.class).getDay());
+            newTimeSlot.setStartHour(ds.getValue(Timeslot.class).getStartHour());
+            newTimeSlot.setFinishHour(ds.getValue(Timeslot.class).getFinishHour());
+
+            arrayTimes.add(newTimeSlot.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
+        times.setAdapter(adapter);
     }
 }

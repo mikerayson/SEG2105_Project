@@ -44,25 +44,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/delButton"
-                android:layout_width="192dp"
-                android:layout_height="wrap_content"
-                android:onClick="onClickDeleteService"
-                android:text="DELETE SERVICE" />
-
-            <Button
-                android:id="@+id/bookingsRatings"
-                android:layout_width="192dp"
-                android:layout_height="wrap_content"
-                android:text="Bookings/Ratings" />
-        </LinearLayout>
-
         <ListView
             android:id="@+id/timeList"
             android:layout_width="match_parent"

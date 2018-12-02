@@ -15,12 +15,12 @@ public class ExampleUnitTest {
     private ServiceInformation service;
     private SignUp signUpTest;
 
-    private SPAddService sPScreen;
+    private AdminWelcomeScreen adminScreen;
     private UserInformation userInfo;
 
     @Before
     public void init(){
-        sPScreen = new SPAddService();
+        adminScreen = new AdminWelcomeScreen();
         userInfo = new UserInformation();
         userInfo.setFirstname("John");
         userInfo.setLastname("Doe");
@@ -33,8 +33,9 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testadminScreen(){
-        assertNotNull(sPScreen);
+    public void test2(){
+        adminScreen.openAddService();
+        assertNotNull(adminScreen);
     }
 }
 

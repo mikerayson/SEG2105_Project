@@ -73,7 +73,7 @@ public class SPAddService extends AppCompatActivity {
                 serviceRate.trim();
 
                 Toast.makeText(SPAddService.this, serviceName + " added", Toast.LENGTH_SHORT).show();
-                mRef.child("Users").child("Service Provider").child(userID).child("Services").child(serviceName).setValue(serviceRate);
+                mRef.child("Users").child("Service Providers").child(userID).child("Services").child(serviceName).setValue(serviceRate);
                 openWelcomePage();
             }
         });
