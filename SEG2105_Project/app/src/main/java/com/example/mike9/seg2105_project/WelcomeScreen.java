@@ -1,6 +1,5 @@
 package com.example.mike9.seg2105_project;
 
-import android.app.Service;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class WelcomeScreen extends AppCompatActivity {
 
@@ -58,7 +56,7 @@ public class WelcomeScreen extends AppCompatActivity {
         buttonAddService = findViewById(R.id.addService);
 
         //UI for the service list
-        serviceList = findViewById(R.id.service_list);
+        serviceList = findViewById(R.id.user_list);
         array = new ArrayList<>();
 
         //hides addService button if user isn't admin

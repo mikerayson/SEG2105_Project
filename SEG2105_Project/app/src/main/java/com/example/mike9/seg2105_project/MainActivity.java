@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                                 openSPWelcomePage();
                                                 break;
                                             } else {
-                                                openSPWelcomePage();
+                                                openUserWelcomePage();
                                             }
                                         }
                                     }
