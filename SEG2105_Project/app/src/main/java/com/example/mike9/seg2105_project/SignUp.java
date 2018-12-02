@@ -141,11 +141,11 @@ public class SignUp extends AppCompatActivity {
                 mRef.child("firstname").setValue(firstName);
                 mRef.child("lastname").setValue(lastName);
                 mRef.child("companyName").setValue(CompName);
-                mRef.child("phoneNumber").setValue(PhoneNum);
-                mRef.child("address").setValue(Adress);
+                mRef.child("phoneNum").setValue(PhoneNum);
+                mRef.child("adress").setValue(Adress);
                 mRef.child("license").setValue(licensed);
-                mRef.child("email").setValue(user.getEmail());
                 mRef.child("description").setValue(Description);
+                mRef.child("Services").child("Service").setValue("List of Services");
             }
         }
 

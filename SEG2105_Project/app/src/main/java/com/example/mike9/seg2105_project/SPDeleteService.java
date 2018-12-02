@@ -35,12 +35,12 @@ public class SPDeleteService extends AppCompatActivity {
 
     public void onClickDeleteServiceSP(View view){
         EditText serviceNameET = findViewById(R.id.deleteServiceName);
-        String serviceName;
-        serviceName = serviceNameET.getText().toString();
+        String serviceName = serviceNameET.toString();
 
         if(serviceName.isEmpty()){
             serviceNameET.setError("Enter Service Name");
             serviceNameET.requestFocus();
+            return;
         } else{
             mRef.child("Users").child("Service Provider").child(userID).child("Services").child(serviceName).removeValue();
             Toast.makeText(this, serviceName + " deleted", Toast.LENGTH_SHORT).show();

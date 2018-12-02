@@ -14,10 +14,5 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
 
-        <ListView
-            android:id="@+id/sp_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -117,9 +117,10 @@ public class WelcomeScreen extends AppCompatActivity {
                 String parts[] = value.split(",");
                 service = parts[0];
                 service.trim();
-                //change activity
+
+                Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
                 Intent nextPage = new Intent(getApplicationContext(), ServiceInfoPage.class);
-                nextPage.putExtra("ServiceName", service);
+                nextPage.putExtra(service, "ServiceName");
                 startActivity(nextPage);
 
             }
@@ -143,12 +144,6 @@ public class WelcomeScreen extends AppCompatActivity {
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         serviceList.setAdapter(adapter);
-    }
-
-    public void onClickRating(View view){
-        //goes to a page where a users history is shown and can write a review
-        //create an activity to show the users booking history in a list view
-        //when an SP is selected, can write a review about that SP
     }
 
 }
