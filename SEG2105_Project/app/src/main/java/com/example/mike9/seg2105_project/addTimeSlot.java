@@ -1,5 +1,6 @@
 package com.example.mike9.seg2105_project;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -109,8 +110,12 @@ public class addTimeSlot extends AppCompatActivity {
             newTime.setDay(day);
             newTime.setStartHour(startHour);
             newTime.setFinishHour(endHour);
-            mRef = mRef.child("Users").child("Service Provider").child(userID).child("availability").push();
-            mRef.setValue(newTime);
+            mRef = mRef.child("Users").child("Service Provider").child(userID)
+                    .child("availability").child(newTime.getDay());
+            mRef.child("Start Hour").setValue(newTime.getStartHour());
+            mRef.child("End Hour").setValue(newTime.getFinishHour());
+            Intent spMAIN = new Intent(addTimeSlot.this,SPWelcomeScreen.class);
+            startActivity(spMAIN);
         }
     }
 }

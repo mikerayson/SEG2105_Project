@@ -30,7 +30,7 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
-    private ListView times;
+    private ListView timesList;
     private ArrayList<String> arrayTimes;
     private ArrayList<String> array;
 
@@ -38,6 +38,9 @@ public class SPWelcomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_spwelcome_screen);
+
         txtView = (TextView) findViewById(R.id.textView2);
 
         //Carries over the user sign in
@@ -47,25 +50,33 @@ public class SPWelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        serviceList = findViewById(R.id.user_list);
+        serviceList = findViewById(R.id.serviceList);
+        timesList = findViewById(R.id.time_list);
         array = new ArrayList<>();
         arrayTimes = new ArrayList<>();
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spwelcome_screen);
 
         //trying to display services provider has, needs to add service child in database
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
+              showTimeData(dataSnapshot);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+
+        mRef = mFirebaseDatabase.getReference();
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showServiceData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
 
     }
     private void openAddServicePage(){
@@ -82,17 +93,37 @@ public class SPWelcomeScreen extends AppCompatActivity {
         startActivity(openTimeSlotPage);
     }
 
-    public void showData(DataSnapshot dataSnapshot){
+    public void showTimeData(DataSnapshot dataSnapshot){
         arrayTimes.clear();
         Timeslot newTimeSlot = new Timeslot();
         for(DataSnapshot ds : dataSnapshot.child("Users").child("Service Provider").child(userID).child("availability").getChildren()){
-            newTimeSlot.setDay(ds.getValue(Timeslot.class).getDay());
-            newTimeSlot.setStartHour(ds.getValue(Timeslot.class).getStartHour());
-            newTimeSlot.setFinishHour(ds.getValue(Timeslot.class).getFinishHour());
+            newTimeSlot.setDay(ds.getKey());
 
+            //DEBUGGING INFO////TO BE DELETED///////////////////////
+            System.out.println(ds.child("Start Hour").getValue());//
+            System.out.println(ds.child("End Hour").getValue());  //
+            ////////////////////////////////////////////////////////
+            if(ds.child("Start Hour").getValue(Integer.class) != null){
+                newTimeSlot.setStartHour(ds.child("Start Hour").getValue(Integer.class));
+            }
+            if(ds.child("End Hour").getValue(Integer.class) != null){
+                newTimeSlot.setFinishHour(ds.child("End Hour").getValue(Integer.class));
+            }
             arrayTimes.add(newTimeSlot.toString());
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayTimes);
-        times.setAdapter(adapter);
+        timesList.setAdapter(adapter);
+    }
+
+    public void showServiceData(DataSnapshot dataSnapshot){
+        array.clear();
+        ServiceInformation newService = new ServiceInformation();
+        for(DataSnapshot ds : dataSnapshot.child("Users").child("Service Provider").child(userID).child("Services").getChildren()){
+            newService.setName(ds.getKey());
+            newService.setRate(ds.getValue(String.class));
+            array.add(newService.toString());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        serviceList.setAdapter(adapter);
     }
 }

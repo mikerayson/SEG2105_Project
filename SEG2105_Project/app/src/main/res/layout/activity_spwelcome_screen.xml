@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="54dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -45,7 +45,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/timeList"
+            android:id="@+id/time_list"
             android:layout_width="match_parent"
             android:layout_height="192dp" />
 
