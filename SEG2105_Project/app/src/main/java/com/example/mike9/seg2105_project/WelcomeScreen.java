@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +37,12 @@ public class WelcomeScreen extends AppCompatActivity {
 
     private String serviceName, serviceRate;
     private ListView serviceList;
+    private ListView searchResult;
     private ArrayList<String> array;
+    private ArrayList<String> resultArray;
     private String service;
 
-    private Button buttonAddService;
+    private EditText searchBar;
 
 
 
@@ -53,51 +58,40 @@ public class WelcomeScreen extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        buttonAddService = findViewById(R.id.addService);
+
 
         //UI for the service list
         serviceList = findViewById(R.id.user_list);
+        searchResult = findViewById(R.id.search_result);
+        searchBar = findViewById(R.id.searchBar);
         array = new ArrayList<>();
+        resultArray = new ArrayList<>();
 
-        //hides addService button if user isn't admin
-        if(userID.equals("hjOUPe63AgRaulruxjlgayLzsr52")){
-            buttonAddService.setVisibility(View.VISIBLE);
-        } else {
-            buttonAddService.setVisibility(View.GONE);
-        }
-
-
-        //Displays the greeting
-
-        mRef.child("Users").addValueEventListener(new ValueEventListener() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //UI for Greeting
-                TextView greeting = (TextView)findViewById(R.id.Greeting);
-                UserInformation user = new UserInformation();
-                /*user.setFirstname(dataSnapshot.child("Home Owner").child(userID).child("firstname").getValue().toString());
-                user.setLastname(dataSnapshot.child("Home Owner").child(userID).child("lastname").getValue().toString());
-                greeting.setText("Welcome " + user.getFirstname() + " " + user.getLastname());
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-
-                ***
-                Since we need to declare the path to get the first and last name, we need to know whether or not the user
-                is a Homeowner or a service provider. Thats why I think we should have a different welcome page for
-                service providers.*/
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().isEmpty()){
+                    setAdapter(s.toString());
+                }
             }
         });
+
+
+
 
         //Displays the services
         mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                showData(dataSnapshot);
+                showServiceData(dataSnapshot);
             }
 
             @Override
@@ -105,7 +99,6 @@ public class WelcomeScreen extends AppCompatActivity {
 
             }
         });
-
         serviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,7 +110,24 @@ public class WelcomeScreen extends AppCompatActivity {
                 service.trim();
 
                 Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
-                Intent nextPage = new Intent(getApplicationContext(), ServiceInfoPage.class);
+                Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
+                nextPage.putExtra(service, "ServiceName");
+                startActivity(nextPage);
+
+            }
+        });
+        searchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = (String) serviceList.getItemAtPosition(position);
+
+                //get service name
+                String parts[] = value.split(",");
+                service = parts[0];
+                service.trim();
+
+                Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
+                Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
                 nextPage.putExtra(service, "ServiceName");
                 startActivity(nextPage);
 
@@ -126,13 +136,10 @@ public class WelcomeScreen extends AppCompatActivity {
     }
 
 
-    public void onClickAddService(View view){
-        Intent nextPage = new Intent(getApplicationContext(), AddService.class);
-        startActivity(nextPage);
-    }
+
 
     //Put code to view active services here
-    private void showData (DataSnapshot dataSnapshot){
+    private void showServiceData(DataSnapshot dataSnapshot){
         array.clear();
         ServiceInformation sInfo = new ServiceInformation();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
@@ -142,6 +149,52 @@ public class WelcomeScreen extends AppCompatActivity {
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         serviceList.setAdapter(adapter);
+    }
+
+    private void showSearchResult(DataSnapshot dataSnapshot,String str){
+        resultArray.clear();
+        ServiceInformation sInfo = new ServiceInformation();
+        for (DataSnapshot ds : dataSnapshot.getChildren()){
+            String service = ds.getKey();
+            String value = ds.getValue().toString();
+            sInfo.setName(service);
+            sInfo.setRate(value);
+
+         //   System.out.println(str);
+         //   System.out.println(service);
+         //   System.out.println(value);
+
+            if(service !=null){
+                if(service.contains(str)){
+
+                    resultArray.add(sInfo.toString());
+                }
+            }
+
+            if(value != null){
+                if(value.contains(str)){
+                    resultArray.add(sInfo.toString());
+                }
+            }
+
+
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, resultArray);
+        searchResult.setAdapter(adapter);
+    }
+
+    private void setAdapter(final String str){
+        mRef.child("Services").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showSearchResult(dataSnapshot,str);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

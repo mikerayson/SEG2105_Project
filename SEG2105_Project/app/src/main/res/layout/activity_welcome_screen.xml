@@ -4,29 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeScreen">
+    tools:context=".WelcomeScreen"
+    tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="514dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search Here" />
 
         <TextView
             android:id="@+id/Greeting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/addService"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClickAddService"
-            android:text="Add a Service" />
+            android:text=" Search Result" />
+
+        <ListView
+            android:id="@+id/search_result"
+            android:layout_width="match_parent"
+            android:layout_height="253dp"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" All Services" />
 
         <ListView
             android:id="@+id/user_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="271dp"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="true" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
