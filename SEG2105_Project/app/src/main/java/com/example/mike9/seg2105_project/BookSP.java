@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class BookSP extends AppCompatActivity {
         tvRating = findViewById(R.id.rating);
         spinnerTime = findViewById(R.id.spinner2);
 
+
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -86,7 +88,7 @@ public class BookSP extends AppCompatActivity {
         }
     }
 
-    public void onClickBook(){
+    public void onClickBook(View view){
         //add a thing in database for SP and user
         mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("name").setValue("time");
         mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("time").setValue("time");

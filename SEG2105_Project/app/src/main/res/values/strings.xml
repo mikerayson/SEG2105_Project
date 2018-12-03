@@ -12,6 +12,8 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="admin_panel">Admin Panel</string>
+    <string name="search_results">Search Results</string>
+    <string name="all_services">All Services</string>
     <string-array name="account_types">
         <item>Service Provider</item>
         <item>Home Owner</item>
