@@ -23,7 +23,7 @@ public class ServiceInfoPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_info);
 
-        service = findViewById(R.id.service);
+        //service = findViewById(R.id.service);
 
         Bundle bundle = getIntent().getExtras();
 
