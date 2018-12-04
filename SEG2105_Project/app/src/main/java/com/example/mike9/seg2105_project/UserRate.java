@@ -36,7 +36,7 @@ public class UserRate extends AppCompatActivity {
 
     private ListView historyList;
     private ArrayList<String> array;
-    private String spName;
+    private ArrayList<String> arrayId;
     private String serviceId;
     private String serviceName;
     double totalRating = 0;
@@ -61,9 +61,10 @@ public class UserRate extends AppCompatActivity {
         etDescription = findViewById(R.id.rDescription);
         historyList = findViewById(R.id.hList);
         array = new ArrayList<>();
+        arrayId = new ArrayList<>();
 
-        //final LinearLayout rateLayout = findViewById(R.id.rate);
-        //rateLayout.setVisibility(View.GONE);
+        final LinearLayout rateLayout = findViewById(R.id.rate);
+        rateLayout.setVisibility(View.GONE);
 
 
         mRef.child("Users").child("Home Owner").child(userID).child("History").addValueEventListener(new ValueEventListener() {
@@ -83,12 +84,13 @@ public class UserRate extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) historyList.getItemAtPosition(position);
                 String parts[] = value.split(",");
-                serviceId = parts[0];
-                serviceName = parts[1];
+                //serviceId = parts[0];
+                serviceName = parts[0];
+                serviceId = arrayId.get(position);
                 serviceId.trim();
                 serviceName.trim();
-                spNameTv.setText(spName);
-                //rateLayout.setVisibility(View.VISIBLE);
+                spNameTv.setText(serviceId);
+                rateLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -99,17 +101,17 @@ public class UserRate extends AppCompatActivity {
     public void showHistory(DataSnapshot dataSnapshot){
         array.clear();
         for(DataSnapshot ds : dataSnapshot.getChildren()){
-            String cName = ds.child("companyName").getValue().toString();
-            String id = ds.getKey();
-            array.add(id + ", " + cName);
+            String cName = ds.getValue().toString();
+            array.add(cName);
+            arrayId.add(ds.getKey());
         }
-       // ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
-        //historyList.setAdapter(adapter);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        historyList.setAdapter(adapter);
     }
 
     public void onClickSubmitRate(View view){
-        Toast.makeText(this, "Opps", Toast.LENGTH_SHORT).show();
-        /*
+
+
         int rating = Integer.parseInt(etRating.getText().toString());
         if((rating > 5) || (rating < 1)){
             etRating.setError("Please enter a rating from 1 - 5");
@@ -119,6 +121,34 @@ public class UserRate extends AppCompatActivity {
         String description = etDescription.getText().toString();
         mRef.child("Users").child("Service Provider").child(serviceId).child("Rating").child(userID).child("rating").setValue(rating);
         mRef.child("Users").child("Service Provider").child(serviceId).child("Rating").child(userID).child("description").setValue(description);
-        */
+
+        mRef.child("Users").child("Service Provider").child(serviceId).child("Rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //updateRating(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Toast.makeText(this, serviceName + " Rated!", Toast.LENGTH_SHORT).show();
+
     }
+
+    public void updateRating(DataSnapshot dataSnapshot){
+        int numRating = 0;
+        int totalRating = 0;
+        int finalRating = 0;
+        for(DataSnapshot ds: dataSnapshot.getChildren()){
+            int temp = (int) ds.child("rating").getValue();
+            totalRating += temp;
+            numRating++;
+        }
+        finalRating = totalRating/numRating;
+        mRef.child("Users").child("Service Provider").child(serviceId).child("userRating").setValue(finalRating);
+    }
+
 }
