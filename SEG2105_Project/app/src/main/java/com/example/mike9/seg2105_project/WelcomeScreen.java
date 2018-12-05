@@ -9,10 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,8 +36,10 @@ public class WelcomeScreen extends AppCompatActivity {
     private String serviceName, serviceRate;
     private ListView serviceList;
     private ListView searchResult;
+    private ListView timeResult;
     private ArrayList<String> array;
     private ArrayList<String> resultArray;
+    private ArrayList<String> timeArray;
     private String service;
 
     private EditText searchBar;
@@ -63,9 +63,11 @@ public class WelcomeScreen extends AppCompatActivity {
         //UI for the service list
         serviceList = findViewById(R.id.user_list);
         searchResult = findViewById(R.id.search_result);
+        timeResult = findViewById(R.id.time_result);
         searchBar = findViewById(R.id.searchBar);
         array = new ArrayList<>();
         resultArray = new ArrayList<>();
+        timeArray = new ArrayList<>();
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,7 +80,8 @@ public class WelcomeScreen extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if(!s.toString().isEmpty()){
-                    setAdapter(s.toString());
+                    setServiceAdapter(s.toString());
+                    setTimeAdapter(s.toString());
                 }
             }
         });
@@ -155,25 +158,25 @@ public class WelcomeScreen extends AppCompatActivity {
         resultArray.clear();
         ServiceInformation sInfo = new ServiceInformation();
         for (DataSnapshot ds : dataSnapshot.getChildren()){
-            String service = ds.getKey();
+            String innerService = ds.getKey();
             String value = ds.getValue().toString();
-            sInfo.setName(service);
+            sInfo.setName(innerService);
             sInfo.setRate(value);
 
-         //   System.out.println(str);
-         //   System.out.println(service);
-         //   System.out.println(value);
 
-            if(service !=null){
-                if(service.contains(str)){
 
+            if(innerService !=null){
+                if(innerService.contains(str)){
                     resultArray.add(sInfo.toString());
+
+                    System.out.println(sInfo.toString());
                 }
             }
-
             if(value != null){
                 if(value.contains(str)){
                     resultArray.add(sInfo.toString());
+
+                    System.out.println(sInfo.toString());
                 }
             }
 
@@ -182,12 +185,60 @@ public class WelcomeScreen extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, resultArray);
         searchResult.setAdapter(adapter);
     }
+    private void showTimeSearchResult(DataSnapshot dataSnapshot,String str){
+        timeArray.clear();
 
-    private void setAdapter(final String str){
+        for (DataSnapshot ds : dataSnapshot.getChildren()){
+            String currentProvider = ds.getKey();
+            String companyName = ds.child("companyName").getValue().toString();
+            DataSnapshot dataS = ds.child("availability");
+            for(DataSnapshot ds2 : dataS.getChildren()){
+                String day = ds2.getKey();
+                String startHour = ds2.child("Start Hour").getValue().toString();
+                String endHour = ds2.child("End Hour").getValue().toString();
+                String result = companyName +": "+ day +" "+ startHour +"-"+ endHour;
+
+                if(day != null){
+                    if(day.contains(str)){
+                        timeArray.add(result);
+                    }
+                }
+                if(startHour != null){
+                    if(startHour.contains(str)){
+                        timeArray.add(result);
+                    }
+                }
+                if(endHour != null){
+                    if(endHour.contains(str)){
+                        timeArray.add(result);
+                    }
+                }
+            }
+
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, timeArray);
+        timeResult.setAdapter(adapter);
+
+    }
+
+    private void setServiceAdapter(final String str){
         mRef.child("Services").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showSearchResult(dataSnapshot,str);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void setTimeAdapter(final String str){
+        mRef.child("Users").child("Service Provider").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showTimeSearchResult(dataSnapshot,str);
             }
 
             @Override
