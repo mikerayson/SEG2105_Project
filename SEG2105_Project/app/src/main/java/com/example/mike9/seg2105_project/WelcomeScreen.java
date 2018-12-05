@@ -87,8 +87,6 @@ public class WelcomeScreen extends AppCompatActivity {
         });
 
 
-
-
         //Displays the services
         mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override

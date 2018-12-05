@@ -1,10 +1,12 @@
 package com.example.mike9.seg2105_project;
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,10 +50,10 @@ public class BookSP extends AppCompatActivity {
         if (b != null){
             param = (String) b.get ("ServiceName");
         }
+
+        //Stuff for the booking list
         sp_list = findViewById(R.id.list_sp);
         array = new ArrayList<>();
-
-
 
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
@@ -64,6 +66,20 @@ public class BookSP extends AppCompatActivity {
 
             }
         });
+        sp_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Gets the company name
+                String companyName = (String) sp_list.getItemAtPosition(position);
+                //Starts the booking intent and carries the info over
+                Intent book = new Intent(getApplicationContext(), ServiceInfoPage.class);
+                book.putExtra("CompName", companyName);
+                startActivity(book);
+            }
+
+
+        });
+
     }
     public void showdata(DataSnapshot dataSnapshot){
         array.clear();
@@ -75,12 +91,4 @@ public class BookSP extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         sp_list.setAdapter(adapter);
     }
-
-
-    /*public void onClickBook(View view){
-        //add a thing in database for SP and user
-        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("name").setValue("time");
-        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("time").setValue("time");
-        mRef.child("Users").child("Home Owner").child(userID).child("History").child(spID).child("time");
-    }*/
 }
