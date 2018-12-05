@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -30,13 +32,15 @@
                 android:id="@+id/spName10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:textSize="20sp"
+                android:textColor="#000000"/>
 
             <EditText
                 android:id="@+id/rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rating /5" />
+                android:hint="Rating /5"
+                android:inputType="number"/>
 
             <EditText
                 android:id="@+id/rDescription"
@@ -48,8 +52,8 @@
                 android:id="@+id/rSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                android:onClick="onClickSubmitRate"/>
+                android:onClick="onClickSubmitRate"
+                android:text="Rate" />
         </LinearLayout>
 
     </LinearLayout>

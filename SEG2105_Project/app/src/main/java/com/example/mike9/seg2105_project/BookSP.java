@@ -1,15 +1,14 @@
 package com.example.mike9.seg2105_project;
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +30,7 @@ public class BookSP extends AppCompatActivity {
 
     private ListView sp_list;
     private ArrayList<String> array;
+    private String param;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +43,15 @@ public class BookSP extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        //Intent intent = getIntent();
-        //spEmail = intent.getStringExtra("email");
+        //Carries over the information on what serviceprovders to display
+        Intent nextPage = getIntent();
+        Bundle b = nextPage.getExtras();
 
+        if (b != null){
+            param = (String) b.get ("ServiceName");
+        }
+
+        //Stuff for the booking list
         sp_list = findViewById(R.id.list_sp);
         array = new ArrayList<>();
 
@@ -60,21 +66,29 @@ public class BookSP extends AppCompatActivity {
 
             }
         });
+        sp_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Gets the company name
+                String companyName = (String) sp_list.getItemAtPosition(position);
+                //Starts the booking intent and carries the info over
+                Intent book = new Intent(getApplicationContext(), ServiceInfoPage.class);
+                book.putExtra("CompName", companyName);
+                startActivity(book);
+            }
+
+
+        });
+
     }
     public void showdata(DataSnapshot dataSnapshot){
         array.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()){
-            array.add(ds.child("companyName").getValue().toString());
+            if (ds.child("Services").hasChild(param)) {
+                array.add(ds.child("companyName").getValue().toString());
+            }
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         sp_list.setAdapter(adapter);
     }
-
-
-    /*public void onClickBook(View view){
-        //add a thing in database for SP and user
-        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("name").setValue("time");
-        mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("time").setValue("time");
-        mRef.child("Users").child("Home Owner").child(userID).child("History").child(spID).child("time");
-    }*/
 }

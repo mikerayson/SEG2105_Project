@@ -87,8 +87,6 @@ public class WelcomeScreen extends AppCompatActivity {
         });
 
 
-
-
         //Displays the services
         mRef.child("Services").addValueEventListener(new ValueEventListener() {
             @Override
@@ -114,7 +112,7 @@ public class WelcomeScreen extends AppCompatActivity {
 
                 Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
                 Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
-                nextPage.putExtra(service, "ServiceName");
+                nextPage.putExtra("ServiceName", service);
                 startActivity(nextPage);
 
             }
@@ -131,7 +129,7 @@ public class WelcomeScreen extends AppCompatActivity {
 
                 Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
                 Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
-                nextPage.putExtra(service, "ServiceName");
+                nextPage.putExtra("ServiceName", service);
                 startActivity(nextPage);
 
             }
