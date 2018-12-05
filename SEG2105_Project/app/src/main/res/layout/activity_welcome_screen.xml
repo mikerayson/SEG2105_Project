@@ -17,11 +17,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/userRate"
-            android:text="Rate"
-            android:onClick="onClickServiceRate"/>
+            android:layout_width="145dp"
+            android:layout_height="37dp"
+            android:onClick="onClickServiceRate"
+            android:text="Rate" />
 
         <EditText
             android:id="@+id/searchBar"
@@ -38,17 +38,22 @@
         <ListView
             android:id="@+id/search_result"
             android:layout_width="match_parent"
-            android:layout_height="253dp"
+            android:layout_height="101dp"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true">
 
         </ListView>
 
+        <ListView
+            android:id="@+id/time_result"
+            android:layout_width="394dp"
+            android:layout_height="125dp" />
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" All Services" />
+            android:text="Your Bookings" />
 
         <ListView
             android:id="@+id/user_list"
