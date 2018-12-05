@@ -89,7 +89,7 @@ public class UserRate extends AppCompatActivity {
                 serviceId = arrayId.get(position);
                 serviceId.trim();
                 serviceName.trim();
-                spNameTv.setText(serviceId);
+                spNameTv.setText(serviceName);
                 rateLayout.setVisibility(View.VISIBLE);
             }
         });
@@ -125,7 +125,7 @@ public class UserRate extends AppCompatActivity {
         mRef.child("Users").child("Service Provider").child(serviceId).child("Rating").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //updateRating(dataSnapshot);
+                updateRating(dataSnapshot);
             }
 
             @Override
@@ -142,8 +142,10 @@ public class UserRate extends AppCompatActivity {
         int numRating = 0;
         int totalRating = 0;
         int finalRating = 0;
+        int temp = 0;
+        ArrayList<Object> array = new ArrayList<>();
         for(DataSnapshot ds: dataSnapshot.getChildren()){
-            int temp = (int) ds.child("rating").getValue();
+            temp = Integer.parseInt(ds.child("rating").getValue().toString());
             totalRating += temp;
             numRating++;
         }
