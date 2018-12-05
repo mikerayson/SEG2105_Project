@@ -2,9 +2,12 @@ package com.example.mike9.seg2105_project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,9 +29,8 @@ public class BookSP extends AppCompatActivity {
     private String userID;
     private FirebaseUser user;
 
-    String spID, spEmail;
-    TextView tvFn, tvLn, tvCn, tvEmail, tvPn, tvAddress, tvLicense, tvDescrip, tvRating;
-    Spinner spinnerTime;
+    private ListView sp_list;
+    private ArrayList<String> array;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +46,13 @@ public class BookSP extends AppCompatActivity {
         //Intent intent = getIntent();
         //spEmail = intent.getStringExtra("email");
 
-        //initialize textviews
-        tvFn = findViewById(R.id.firstName);
-        tvLn = findViewById(R.id.Lastname);
-        tvCn = findViewById(R.id.companyName);
-        tvEmail = findViewById(R.id.email);
-        tvPn = findViewById(R.id.phoneNumber);
-        tvAddress = findViewById(R.id.address);
-        tvLicense = findViewById(R.id.licensed);
-        tvDescrip = findViewById(R.id.description);
-        tvRating = findViewById(R.id.rating);
-        spinnerTime = findViewById(R.id.spinner2);
-
+        sp_list = findViewById(R.id.list_sp);
+        array = new ArrayList<>();
 
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getID(dataSnapshot);
+                showdata(dataSnapshot);
             }
 
             @Override
@@ -69,29 +61,20 @@ public class BookSP extends AppCompatActivity {
             }
         });
     }
-
-    public void getID(DataSnapshot dataSnapshot){
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
-            if(ds.child("firstname").getValue().equals(spEmail)){
-                spID = ds.getKey();
-                //set all textfields
-                tvFn.setText(ds.child("firstname").getValue().toString());
-                tvLn.setText(ds.child("lastname").getValue().toString());
-                tvCn.setText(ds.child("companyName").getValue().toString());
-                tvEmail.setText(ds.child("email").getValue().toString());
-                tvPn.setText(ds.child("phoneNumber").getValue().toString());
-                tvAddress.setText(ds.child("address").getValue().toString());
-                tvLicense.setText(ds.child("address").getValue().toString());
-                tvDescrip.setText(ds.child("description").getValue().toString());
-                tvRating.setText(ds.child("rating").getValue().toString());
-            }
+    public void showdata(DataSnapshot dataSnapshot){
+        array.clear();
+        for (DataSnapshot ds : dataSnapshot.getChildren()){
+            array.add(ds.child("companyName").getValue().toString());
         }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+        sp_list.setAdapter(adapter);
     }
 
-    public void onClickBook(View view){
+
+    /*public void onClickBook(View view){
         //add a thing in database for SP and user
         mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("name").setValue("time");
         mRef.child("Users").child("Service Provider").child(spID).child("bookings").child(userID).child("time").setValue("time");
         mRef.child("Users").child("Home Owner").child(userID).child("History").child(spID).child("time");
-    }
+    }*/
 }

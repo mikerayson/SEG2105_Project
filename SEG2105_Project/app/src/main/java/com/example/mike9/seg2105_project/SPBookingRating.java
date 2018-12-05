@@ -46,11 +46,12 @@ public class SPBookingRating extends AppCompatActivity {
         bArrayList = new ArrayList<>();
 
         //get intent extras
+        /*
 
         mRef.child("Users").child("Service Provider").child(spID).child("bookings").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showBooking(dataSnapshot);
+                //showBooking(dataSnapshot);
             }
 
             @Override
@@ -62,7 +63,7 @@ public class SPBookingRating extends AppCompatActivity {
         mRef.child("Users").child("Service Provider").child(spID).child("ratings").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showRating(dataSnapshot);
+                //showRating(dataSnapshot);
             }
 
             @Override
@@ -70,6 +71,7 @@ public class SPBookingRating extends AppCompatActivity {
 
             }
         });
+        */
     }
 
     public void showBooking(DataSnapshot dataSnapshot){

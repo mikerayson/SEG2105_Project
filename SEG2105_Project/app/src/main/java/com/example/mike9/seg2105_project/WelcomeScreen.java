@@ -197,4 +197,9 @@ public class WelcomeScreen extends AppCompatActivity {
         });
     }
 
+    public void onClickServiceRate(View view){
+        Intent i = new Intent(getApplicationContext(), UserRate.class);
+        startActivity(i);
+    }
+
 }
