@@ -2,14 +2,11 @@ package com.example.mike9.seg2105_project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +28,7 @@ public class BookSP extends AppCompatActivity {
 
     private ListView sp_list;
     private ArrayList<String> array;
+    private String param;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +41,17 @@ public class BookSP extends AppCompatActivity {
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
 
-        //Intent intent = getIntent();
-        //spEmail = intent.getStringExtra("email");
+        //Carries over the information on what serviceprovders to display
+        Intent nextPage = getIntent();
+        Bundle b = nextPage.getExtras();
 
+        if (b != null){
+            param = (String) b.get ("ServiceName");
+        }
         sp_list = findViewById(R.id.list_sp);
         array = new ArrayList<>();
+
+
 
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
@@ -64,7 +68,9 @@ public class BookSP extends AppCompatActivity {
     public void showdata(DataSnapshot dataSnapshot){
         array.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()){
-            array.add(ds.child("companyName").getValue().toString());
+            if (ds.child("Services").hasChild(param)) {
+                array.add(ds.child("companyName").getValue().toString());
+            }
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
         sp_list.setAdapter(adapter);
