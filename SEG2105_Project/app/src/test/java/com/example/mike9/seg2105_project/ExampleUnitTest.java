@@ -12,13 +12,81 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
 
-    private ServiceInformation service;
-    private SignUp signUpTest;
 
-    private AdminWelcomeScreen adminScreen;
+    private Timeslot timeTest;
     private UserInformation userInfo;
+    private MainActivity main;
+    private SPAddService addTest;
+    private SPDeleteService delTest;
+    private WelcomeScreen userTest;
 
     @Before
+        public void init(){
+        timeTest = new Timeslot();
+        userInfo = new UserInformation();
+        main = new MainActivity();
+        addTest = new SPAddService();
+        delTest = new SPDeleteService();
+        userTest = new WelcomeScreen();
+
+        userInfo.setFirstname("Juliano");
+        userInfo.setLastname("Falotico");
+
+        timeTest.setDay("Monday");
+        timeTest.setStartHour(8);
+        timeTest.setFinishHour(17);
+    }
+
+    @Test
+    public void testMain(){
+        assertNotNull(main);
+    }
+    @Test
+    public void userPage(){
+        assertEquals("Juliano",userInfo.getFirstname());
+        assertEquals("Falotico",userInfo.getLastname());
+    }
+    @Test
+    public void dayTest(){
+        assertEquals("Monday",timeTest.getDay());
+    }
+    @Test
+    public void startTest(){
+        assertEquals(8,timeTest.getStartHour());
+    }
+    @Test
+    public void endTime(){
+        assertEquals(17,timeTest.getFinishHour());
+    }
+    @Test
+    public void userMain(){
+        assertEquals(WelcomeScreen.class,userTest.getClass());
+    }
+    @Test
+    public void addPageTest(){
+        assertNotNull(addTest);
+    }
+    @Test
+    public void delPageTest(){
+        assertNotNull(delTest);
+    }
+    @Test
+    public void timeToString(){
+        assertNotNull(timeTest.toString());
+    }
+    @Test
+    public void userToString(){
+        assertNotNull(userInfo.toString());
+    }
+
+
+
+}
+
+
+/* OLD LEGACY TESTS
+
+@Before
     public void init(){
         adminScreen = new AdminWelcomeScreen();
         userInfo = new UserInformation();
@@ -37,10 +105,8 @@ public class ExampleUnitTest {
         adminScreen.openAddService();
         assertNotNull(adminScreen);
     }
-}
 
-
-/* OLD LEGACY TESTS
+//////////////////////////////////////////////////////////////////////
  @Before
  public void init(){
  service = new ServiceInformation();
