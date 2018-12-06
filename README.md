@@ -5,6 +5,10 @@ For testing, the admin credentials are:
 Email = admin@admin.ca
 Pass = password
 
+Service Provider credentials are: Email = businesstest@gmail.com Pass = password
+
+Home Owner credentials are: Email = hometest@gmail.com Pass = password
+
 https://github.com/mikerayson/SEG2105_Project
 
 Group Members:
