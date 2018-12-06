@@ -27,7 +27,6 @@
         <activity android:name=".ServiceInfoPage" />
         <activity android:name=".SPWelcomeScreen" />
         <activity android:name=".BookSP"/>
-        <activity android:name=".SPBookingRating"/>
         <activity android:name=".UserRate"/>
         <activity android:name=".addTimeSlot"></activity>
     </application>
