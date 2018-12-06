@@ -100,7 +100,24 @@ public class WelcomeScreen extends AppCompatActivity {
 
             }
         });
-        serviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        timeResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = (String) timeResult.getItemAtPosition(position);
+
+                //get service name
+                String parts[] = value.split(",");
+                service = parts[0];
+                service.trim();
+
+                Toast.makeText(WelcomeScreen.this, value, Toast.LENGTH_SHORT).show();
+                Intent nextPage = new Intent(getApplicationContext(), BookSP.class);
+                nextPage.putExtra("ServiceName", service);
+                startActivity(nextPage);
+
+            }
+        });
+        searchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) serviceList.getItemAtPosition(position);
@@ -117,7 +134,7 @@ public class WelcomeScreen extends AppCompatActivity {
 
             }
         });
-        searchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        serviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String value = (String) serviceList.getItemAtPosition(position);

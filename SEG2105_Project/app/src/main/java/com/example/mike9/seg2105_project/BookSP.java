@@ -58,7 +58,7 @@ public class BookSP extends AppCompatActivity {
         mRef.child("Users").child("Service Provider").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showdata(dataSnapshot);
+                showData(dataSnapshot);
             }
 
             @Override
@@ -81,7 +81,7 @@ public class BookSP extends AppCompatActivity {
         });
 
     }
-    public void showdata(DataSnapshot dataSnapshot){
+    public void showData(DataSnapshot dataSnapshot){
         array.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()){
             if (ds.child("Services").hasChild(param)) {

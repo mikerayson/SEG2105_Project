@@ -3,9 +3,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +26,7 @@ public class ServiceInfoPage extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseUser user;
     private String userID;
+    private String providerID;
 
     private ArrayList<String> array;
     private ListView mTimeSlots;
@@ -43,6 +48,8 @@ public class ServiceInfoPage extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mRef = mFirebaseDatabase.getReference();
         userID = user.getUid();
+        array = new ArrayList<>();
+        providerID = new String();
 
         //Carries over the information on what serviceprovders to display
         Intent nextPage = getIntent();
@@ -64,6 +71,7 @@ public class ServiceInfoPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
+                showTimeData(dataSnapshot);
             }
 
             @Override
@@ -72,18 +80,27 @@ public class ServiceInfoPage extends AppCompatActivity {
             }
         });
 
+        mTimeSlots.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ServiceInfoPage.this, "BOOKING ADDED!", Toast.LENGTH_LONG).show();
+                Intent openMain = new Intent(getApplicationContext(), WelcomeScreen.class);
+                startActivity(openMain);
+
+            }
+        });
     }
 
     public void showData(DataSnapshot dataSnapshot){
         //Sets up the textViews
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             if (ds.child("companyName").getValue().toString().equals(compName)) {
+                providerID = ds.getKey();
                 mCompName.setText(compName);
                 mAddress.setText(ds.child("adress").getValue().toString());
                 String ownerName = ds.child("firstname").getValue().toString() + " " + ds.child("lastname").getValue().toString();
                 mOwnerName.setText(ownerName);
                 mPhoneNum.setText(ds.child("phoneNum").getValue().toString());
-                //showTimeData(ds);
             }
         }
     }
@@ -91,7 +108,7 @@ public class ServiceInfoPage extends AppCompatActivity {
     public void showTimeData(DataSnapshot dataSnapshot){
         array.clear();
         Timeslot newTimeSlot = new Timeslot();
-        for(DataSnapshot ds : dataSnapshot.child("availability").getChildren()){
+        for(DataSnapshot ds : dataSnapshot.child(providerID).child("availability").getChildren()){
             newTimeSlot.setDay(ds.getKey());
             if(ds.child("Start Hour").getValue(Integer.class) != null){
                 newTimeSlot.setStartHour(ds.child("Start Hour").getValue(Integer.class));
